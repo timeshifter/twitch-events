@@ -25,7 +25,7 @@ var client = new TwitchClient({
 client.JoinChannels('timeshifter08');
 ```
 
-##### Parameters
+#### Parameters
 
 | Parameter | Notes |
 | --- | --- |
@@ -33,7 +33,7 @@ client.JoinChannels('timeshifter08');
 | Nick/Pass | The nickname/password you want the library to connect as. Required for joining rooms. |
 | Debug | Enables a complete WebSocket log to the console. Defaults to `false`. |
 
-##### Methods
+#### Methods
 
 | Method | Notes |
 | --- | --- |
