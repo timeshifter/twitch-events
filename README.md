@@ -12,7 +12,7 @@ Chat rooms are currently only supported by full room ID, i.e. `chatrooms:6192766
 
 ----
 
-#### Initialization
+### Initialization
 
 ```javascript
 var client = new TwitchClient({
@@ -25,7 +25,7 @@ var client = new TwitchClient({
 client.JoinChannels('timeshifter08');
 ```
 
-#### Parameters
+### Parameters
 
 | Parameter | Notes |
 | --- | --- |
@@ -33,7 +33,7 @@ client.JoinChannels('timeshifter08');
 | Nick/Pass | The nickname/password you want the library to connect as. Required for joining rooms. |
 | Debug | Enables a complete WebSocket log to the console. Defaults to `false`. |
 
-#### Methods
+### Methods
 
 | Method | Notes |
 | --- | --- |
@@ -42,9 +42,10 @@ client.JoinChannels('timeshifter08');
 | `LeaveChannels(obj)` | Leave the specified channel(s). Accepts a `String` or `Array` of channel names/room ID's. |
 | `SendMessage(channel, message)` | Sends a message to the specified channel/room ID. Cannot send to channels you haven't joined. |
 
-#### Default event signatures
+### Default event signatures
 
 ```javascript
+//intended for troubleshooting purposes; this event fires for *every* message received from the WebSocket
 client.onMessage = function (message) {
 	console.log('onMessage', { 'Message': message, 'Timestamp': new Date() });
 };
