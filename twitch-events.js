@@ -45,7 +45,7 @@ function TwitchClient(opts) {
 
         var idx=0;
         while (idx < client.PendingChannels.length) {
-            if (client.PendingChannels[idx].indexOf(':') >= 0) {
+            if (client.PendingChannels[idx].indexOf(':') == -1) {
                 var c = client.PendingChannels[idx];
                 this.send(`JOIN ${c}`);
                 client.Channels[c] = {};
