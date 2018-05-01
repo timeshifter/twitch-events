@@ -15,7 +15,7 @@ Chat rooms are currently only supported by full room ID, i.e. `chatrooms:6192766
 ### Initialization
 
 ```html
-<script src="https://raw.githubusercontent.com/timeshifter/twitch-events/master/twitch-events.js"></script>
+<script src="https://timeshifter.github.io/twitch-events/twitch-events.js"></script>
 ```
 
 ```javascript
