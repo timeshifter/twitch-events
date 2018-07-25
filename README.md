@@ -2,7 +2,7 @@
 
 This is a JavaScript library that intends to consolidate and simplify all events that are relevant to a Twitch chat, i.e. followers, subscribes, etc.
 
-It exposes every event available, but JOIN and PART events appear to be sent out in recurring batches, and I've seen delays up to several minutes before a JOIN event is sent. This library will not attempt to short-circuit those events; they are exposed as they are dispatched.
+It exposes every event available, but JOIN and PART events appear to be sent out in recurring batches, and I've seen delays up to several minutes before a JOIN event is sent. This library will not attempt to short-circuit those events; they are fired as they are received.
 
 ----
 

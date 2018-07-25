@@ -30,7 +30,11 @@ function TwitchClient(opts) {
     if (_clientId == undefined && this.Debug) {
         console.log('ClientID not provided; follower data will not be available.');
     }
+    else {
+        this.ClientID = _clientId;
+    }
 
+    
 
     //websocket handlers
     function OnWebsocketOpen() {
@@ -38,6 +42,7 @@ function TwitchClient(opts) {
         if (opts.Nick && opts.Pass) {
             this.send(`PASS ${(opts.Pass.indexOf('oauth:') == 0 ? '' : 'oauth:')} ${opts.Pass}`);
             this.send(`NICK ${opts.Nick}`);
+            this.Nickname = opts.Nick;
         }
         else {
             this.send(`NICK justinfan${Math.floor(Math.random() * 999999)}`);
