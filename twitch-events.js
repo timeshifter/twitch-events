@@ -108,18 +108,25 @@ function TwitchClient(opts) {
 
 */
 
+                var userdata = parts[0].split(';');
 
-                var spaceSplit = line.split(' ');
+                var userdata_obj = {};
 
-                var user = spaceSplit[1].split(':')[1].split('!')[0],
-                    channel = spaceSplit[3];
+                for (s of userdata) {
+                    var sides = s.split('=');
+                    userdata_obj[sides[0]] = sides[1];
+                }
+                
+
+                var user = parts[1].split(':')[1].split('!')[0],
+                    channel = parts[3];
                 
                 var idx = line.indexOf(':', line.indexOf(channel));
                 var msg = line.substring(idx + 1);
                 
 
                 if (client.onPrivmsg)
-                    client.onPrivmsg(user, channel.substring(1), msg);
+                    client.onPrivmsg(user, channel.substring(1), msg, userdata_obj);
 
             }
             else if (parts[2] == 'ROOMSTATE') {
@@ -135,25 +142,34 @@ function TwitchClient(opts) {
 
                 */
 
-                var parts = line.split(' ');
+                //var parts = line.split(' ');
                 var userdata = parts[0].split(';');
+
+                var userdata_obj = {};
+
+                for (s of userdata) {
+                    var sides = s.split('=');
+                    userdata_obj[sides[0]] = sides[1];
+                }
 
                 var channel = line.split(' ')[3].substring(1).trim().toLowerCase();
 
                 //channel record has already been created, bail
-                if (_channelIds[channel] != undefined) {
-                    return;
-                }
+                //if (_channelIds[channel] != undefined) {
+                //    return;
+                //}
 
-                for (var i = 0; i < userdata.length; i++) {
-                    if (userdata[i].indexOf('room-id') == 0) {
-                        _channelIds[channel] = userdata[i].split('=')[1];
-                        _channelNames[userdata[i].split('=')[1]] = channel;
-                        _channelRooms[userdata[i].split('=')[1]] = {};
-                        break;
-                    }
-                }
+                //for (var i = 0; i < userdata.length; i++) {
+                //    if (userdata[i].indexOf('room-id') == 0) {
+                //        _channelIds[channel] = userdata[i].split('=')[1];
+                //        _channelNames[userdata[i].split('=')[1]] = channel;
+                //        _channelRooms[userdata[i].split('=')[1]] = {};
+                //        break;
+                //    }
+                //}
 
+                if (client.onRoomstate)
+                    client.onRoomstate(channel, userdata_obj);
 
             }
             else if (parts[2] == 'USERNOTICE') {
@@ -313,7 +329,7 @@ function TwitchClient(opts) {
         SetDefaultEventHandled('onMessage');
     }
 
-    this.onPrivmsg = function (user, channel, message) {
+    this.onPrivmsg = function (user, channel, message, userData) {
         SetDefaultEventHandled('onPrivmsg');
     }
 
