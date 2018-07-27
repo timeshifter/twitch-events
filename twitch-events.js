@@ -53,7 +53,7 @@ function TwitchClient(opts) {
             if (client.PendingChannels[idx].indexOf(':') == -1) {
                 var c = client.PendingChannels[idx];
                 this.send(`JOIN ${c}`);
-                client.Channels[c] = {};
+                client.Channels.push(c);
                 client.PendingChannels.shift();
             }
             else {
