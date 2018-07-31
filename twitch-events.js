@@ -27,6 +27,13 @@ function TwitchClient(opts) {
     this.Channels = [];
     this.PendingChannels = [];
 
+    if (opts.Channels) {
+        if (Array.isArray(opts.Channels))
+            this.PendingChannels = opts.Channels;
+        else
+            this.PendingChannels.push(opts.Channels);
+    }
+
     if (_clientId == undefined && this.Debug) {
         console.log('ClientID not provided; follower data will not be available.');
     }
@@ -47,6 +54,8 @@ function TwitchClient(opts) {
         else {
             this.send(`NICK justinfan${Math.floor(Math.random() * 999999)}`);
         }
+
+        
 
         var idx=0;
         while (idx < client.PendingChannels.length) {
@@ -126,7 +135,7 @@ function TwitchClient(opts) {
                 
 
                 if (client.onPrivmsg)
-                    client.onPrivmsg(user, channel.substring(1), msg, userdata_obj);
+                    client.onPrivmsg(user, channel.substring(1), msg, userdata_obj, line);
 
             }
             else if (parts[2] == 'ROOMSTATE') {
@@ -297,20 +306,22 @@ function TwitchClient(opts) {
         }
 
         for (c of arr) {
-            c = c.trim().toLowerCase();
-            if (c[0] != '#')
-                c = '#' + c;
+            if (c != undefined) {
+                c = c.trim().toLowerCase();
+                if (c[0] != '#')
+                    c = '#' + c;
 
-            if (_ws.readyState == 1) {
+                if (_ws.readyState == 1) {
 
-                _ws.send(`PART ${c}`);
-                var i = client.Channels.indexOf(c);
-                client.Channels.splice(i, 1);
-            }
-            else {
-                var i = client.PendingChannels.indexOf(c);
-                client.PendingChannels.splice(i, 1);
+                    _ws.send(`PART ${c}`);
+                    var i = client.Channels.indexOf(c);
+                    client.Channels.splice(i, 1);
+                }
+                else {
+                    var i = client.PendingChannels.indexOf(c);
+                    client.PendingChannels.splice(i, 1);
 
+                }
             }
         }
     }
@@ -329,7 +340,7 @@ function TwitchClient(opts) {
         SetDefaultEventHandled('onMessage');
     }
 
-    this.onPrivmsg = function (user, channel, message, userData) {
+    this.onPrivmsg = function (user, channel, message, userData, rawMessage) {
         SetDefaultEventHandled('onPrivmsg');
     }
 
