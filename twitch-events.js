@@ -60,7 +60,9 @@ function TwitchClient(opts) {
         var idx=0;
         while (idx < client.PendingChannels.length) {
             if (client.PendingChannels[idx].indexOf(':') == -1) {
-                var c = client.PendingChannels[idx];
+                var c = client.PendingChannels[idx].trim();
+                if (c.indexOf('#') != 0)
+                    c = '#' + c;
                 this.send(`JOIN ${c}`);
                 client.Channels.push(c);
                 client.PendingChannels.shift();
